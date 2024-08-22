@@ -58,6 +58,9 @@ You can choose any Places API as your datasource.
 ## Submission
 - Fork this repository, make a pull request to this repo. when you're done an assignment.
 - Ensure the code follows best practices and includes comprehensive unit tests.
+- Ensure that the project can be run successfully with the provided instructions or setup. We should be able to execute and test your code without any issues.
+- Focus on demonstrating your programming skills rather than aiming for a perfect solution. We are more interested in your approach, thought process, and coding practices.
+
 
 
 
