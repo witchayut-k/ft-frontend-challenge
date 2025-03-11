@@ -48,11 +48,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             </Link>
           </li>
           <li>
-            <Link href="/search" onClick={onClose} className="block hover:text-gray-300">
-              Search City
-            </Link>
-          </li>
-          <li>
             <Link href="/settings" onClick={onClose} className="block hover:text-gray-300">
               Settings
             </Link>
