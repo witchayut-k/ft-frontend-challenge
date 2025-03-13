@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { config } from "@/configs/config";
 import useCities from "@/core/hooks/useCities";
 import { useSettings } from "@/core/hooks/useSettings";
@@ -9,14 +10,12 @@ import { renderTemperature } from "@/core/utils/weatherHelpers";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { MoreVertical, Trash } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
 export default function HomePage() {
   const { cities, removeCity } = useCities();
   const { settings } = useSettings();
 
   const [weathers, setWeathers] = useState<any[]>([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (cities.length > 0) {
