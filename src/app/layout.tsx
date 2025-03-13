@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import Header from "@/components/Header";
-
-const inter = Inter({ subsets: ["latin"] });
+import Providers from "@/components/Providers";
+import { ChildrenType } from "@/core/types";
+import DefaultLayout from "@/layouts/DefaultLayout";
 
 export const metadata: Metadata = {
   title: "Weather App",
@@ -13,14 +13,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<ChildrenType>): JSX.Element {
   return (
     <html lang="en">
-      <body className="flex flex-col">
-        <Header />
-        <main>{children}</main>
+      <body className="flex is-full min-h-full flex-auto flex-col bg-gray-100">
+        <Providers>
+          <DefaultLayout>{children}</DefaultLayout>
+        </Providers>
       </body>
     </html>
   );

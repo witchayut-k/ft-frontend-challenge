@@ -26,14 +26,14 @@
       "@/pages/*": [
         "./src/pages/*"
       ],
-      "@/styles/*": [
-        "./src/styles/*"
+      "@/layouts/*": [
+        "./src/layouts/*"
       ],
-      "@/utils/*": [
-        "./src/utils/*"
+      "@/configs/*": [
+        "./src/configs/*"
       ],
-      "@/services/*": [
-        "./src/services/*"
+      "@/core/*": [
+        "./src/core/*"
       ]
     },
     "types": [

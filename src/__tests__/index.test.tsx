@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Index from '../app/index';
+import Index from '../../_temp/index';
 
 describe('Home', () => {
   it('renders without errors', () => {
