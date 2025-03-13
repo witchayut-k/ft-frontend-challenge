@@ -10,6 +10,7 @@ import { renderTemperature } from "@/core/utils/weatherHelpers";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { MoreVertical, Trash } from "lucide-react";
 import Link from "next/link";
+import WeatherIcon from "@/components/WeatherIcon";
 
 export default function HomePage() {
   const { cities, removeCity } = useCities();
@@ -55,14 +56,9 @@ export default function HomePage() {
               </p>
             </div>
             <div className="flex items-center pt-2">
-              <div className="weather-image">
-                <img
-                  src={`${config.OPENWEATHER_ICON_URL}/${weathers[index]?.current?.weather[0]?.icon}.${config.OPENWEATHER_ICON_EXTENSION}`}
-                  alt="Weather Icon"
-                />
-              </div>
+              <WeatherIcon icon={weathers[index]?.weather[0].icon} />
               <span className="text-xl text-slate-700">
-                {renderTemperature(weathers[index]?.current?.temp)}
+                {renderTemperature(weathers[index]?.main.temp)}
               </span>
             </div>
           </Link>

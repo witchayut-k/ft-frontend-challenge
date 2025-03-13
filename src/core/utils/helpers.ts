@@ -5,7 +5,7 @@ import { Settings } from "@/core/contexts/settingsContext"
 export const getSettingsFromLocalStorage = (): Settings => {
     const storageKey = appConfig.storageKey
     if (typeof window !== "undefined") {
-        return JSON.parse(localStorage.get(storageKey) || '{}')
+        return JSON.parse(localStorage.getItem(storageKey) || '{}')
     } else {
         return {}
     }

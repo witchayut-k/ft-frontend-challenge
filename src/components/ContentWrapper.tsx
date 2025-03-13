@@ -1,22 +1,21 @@
-"use client";
-
 import { ChildrenType } from "@/core/types";
 
 type Props = ChildrenType & {
   className?: string;
 };
 
-const ListItem = (props: Props) => {
+const ContentWrapper = (props: Props) => {
   const { children, className } = props;
   return (
     <div
-      className={`text-xs mb-1 text-slate-600 flex justify-around items-start w-full ${
+      className={`p-4 bg-white rounded-lg shadow-md ${
         className ? className : ""
       }`}
+      style={{ minHeight: "calc(100vh - 125px)" }}
     >
       {children}
     </div>
   );
 };
 
-export default ListItem;
+export default ContentWrapper;

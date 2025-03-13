@@ -19,7 +19,7 @@ export async function getCitySuggestions(query: string) {
 }
 
 export async function getCurrentWeather(lat: number, lng: number, unit: TemperatureUnit) {
-  const url = `${config.OPENWEATHER_API_URL}?lat=${lat}&lon=${lng}&appid=${config.OPENWEATHER_API_KEY}&units=${unit}&exclude=minutely,hourly,daily`;
+  const url = `${config.OPENWEATHER_LOCATION_API_URL}?lat=${lat}&lon=${lng}&appid=${config.OPENWEATHER_API_KEY}&units=${unit}`;
 
   try {
     const res = await fetch(url);
@@ -35,7 +35,7 @@ export async function getCurrentWeather(lat: number, lng: number, unit: Temperat
 }
 
 export async function getCurrentWeatherWithForcast(lat: number, lng: number, unit: TemperatureUnit) {
-  const url = `${config.OPENWEATHER_API_URL}?lat=${lat}&lon=${lng}&appid=${config.OPENWEATHER_API_KEY}&units=${unit}&exclude=minutely,daily`;
+  const url = `${config.OPENWEATHER_ONECALL_API_URL}?lat=${lat}&lon=${lng}&appid=${config.OPENWEATHER_API_KEY}&units=${unit}&exclude=minutely,daily`;
 
   try {
     const res = await fetch(url);

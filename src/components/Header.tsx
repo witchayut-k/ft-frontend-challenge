@@ -1,20 +1,23 @@
-"use client";
-
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Menu, Search } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Sidebar from "./Sidebar";
 import SuggestDialog from "./SuggestDialog";
-import { getCitySuggestions } from "@/core/services/weatherService";
+import {
+  getCitySuggestions,
+  getCurrentWeather,
+} from "@/core/services/weatherService";
 import { useDebounce } from "react-use";
 import useCities from "@/core/hooks/useCities";
+import { useSettings } from "@/core/hooks/useSettings";
 
-interface HeaderProps {
+type Props = {
   toggleSidebar: Dispatch<SetStateAction<boolean>>;
-}
+};
 
-const Header = ({ toggleSidebar }: HeaderProps) => {
-  const { addCity } = useCities();
+const Header = (props: Props) => {
+  const { toggleSidebar } = props;
+  const { cities, addCity, isLoading } = useCities();
+  const { settings } = useSettings();
   const router = useRouter();
 
   const [isSuggestOpen, setIsSuggestOpen] = useState(false);
@@ -22,6 +25,14 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [suggestions, setSuggestions] = useState<City[]>([]);
+
+  useEffect(() => {
+    if (!isLoading && cities.length === 0) {
+      confirm("No cities found. Would you like to use your current location?")
+        ? getCurrentLocation()
+        : null;
+    }
+  }, [isLoading, cities]);
 
   useDebounce(
     () => {
@@ -59,6 +70,34 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
       setIsSuggestOpen(false);
     }
   }, [debouncedQuery]);
+
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        getCurrentWeather(latitude, longitude, settings.temperatureUnit!).then(
+          (res) => {
+            const city = {
+              id: res.id,
+              name: res.name,
+              place: `${res.name}, ${res.sys.country}`,
+              countryCode: res.sys.country,
+              latitude: res.coord.lat,
+              longitude: res.coord.lon,
+            };
+            addCity(city);
+
+            setTimeout(() => {
+              window.dispatchEvent(new Event("storage"));
+            }, 100);
+          }
+        );
+      },
+      () => {
+        alert("Unable to get your current location.");
+      }
+    );
+  };
 
   const handleSearchFocus = () => {
     if (query) {

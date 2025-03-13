@@ -1,20 +1,16 @@
-// components/Modal.tsx
 import React, { useEffect, useRef } from "react";
 import { MapPin } from "lucide-react";
 
-interface ModalProps {
+type Props = {
   suggestions: any[];
   isOpen: boolean;
   onClose: () => void;
   onSelected: (city: any) => void;
-}
+};
 
-const SuggestDialog: React.FC<ModalProps> = ({
-  isOpen,
-  onClose,
-  onSelected,
-  suggestions,
-}) => {
+const SuggestDialog = (props: Props) => {
+  const { isOpen, onClose, onSelected, suggestions } = props;
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

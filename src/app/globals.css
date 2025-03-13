@@ -34,33 +34,6 @@ body {
   }
 }
 
-.forcast-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  margin-top: 10px;
-}
-
-  .forcast-item:first-of-type {
-    margin-left: -10px;
-  }
-
-  .forcast-item:last-of-type {
-    margin-right: 0;
-  }
-
-  .forcast-item span {
-    font-size: 0.7rem;
-    line-height: 0;
-  }
-
-  .forcast-item small {
-    font-size: 0.75rem;
-    line-height: 0.5;
-  }
-
-
 @media (min-width: 1024px) {
   .layout-page{
     padding-inline-start: var(--sidebar-width);

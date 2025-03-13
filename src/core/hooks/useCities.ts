@@ -3,23 +3,22 @@ import appConfig from "@/configs/appConfig";
 
 const useCities = () => {
   const [cities, setCities] = useState<City[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedCities = localStorage.getItem(appConfig.cityStorageKey);
       if (storedCities) {
         setCities(JSON.parse(storedCities));
-      } else {
-        const defaultCities = appConfig.defaultCities || [];
-        setCities(defaultCities);
       }
+      setIsLoading(false);
     }
   }, []);
 
   const addCity = (city: City) => {
     setCities((prev) => {
 
-      if (prev.find((c) => c.id === city.id)) {
+      if (prev.find((c) => c.id === city.id || city.name === c.name)) {
         return prev; // Return the existing list if the city is a duplicate
       }
 
@@ -47,7 +46,7 @@ const useCities = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  return { cities, addCity, removeCity };
+  return { cities, addCity, removeCity, isLoading };
 };
 
 export default useCities;

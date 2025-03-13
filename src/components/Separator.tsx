@@ -1,5 +1,3 @@
-"use client";
-
 const Separator = () => {
   return <hr className="my-4" />;
 };

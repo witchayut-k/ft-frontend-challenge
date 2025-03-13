@@ -1,15 +1,14 @@
-"use client";
-
 import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 
-interface SidebarProps {
+type Props = {
   isOpen: boolean;
   onClose: () => void;
-}
+};
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export default function Sidebar(props: Props) {
+  const { isOpen, onClose } = props;
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   // Close sidebar when clicking outside

@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useSettings } from "@/core/hooks/useSettings";
 import { TemperatureUnit } from "@/core/types";
-import ContentWrapper from "@/layouts/components/ContentWrapper";
+import ContentWrapper from "@/components/ContentWrapper";
 
-export default function SettingsPage() {
+export default function SettingsPage({ onUnitChange }: any) {
   const { settings, updateSettings } = useSettings();
   const [mounted, setMounted] = useState(false);
 
@@ -17,6 +17,8 @@ export default function SettingsPage() {
     if (settings.temperatureUnit !== value) {
       updateSettings({ temperatureUnit: value }, { updateLocalStorage: true });
     }
+
+    onUnitChange(value);
   };
 
   if (!mounted) return null;
@@ -26,10 +28,14 @@ export default function SettingsPage() {
       <h1 className="text-2xl font-bold mb-6">Settings</h1>
 
       <div className="mb-6">
-        <label className="block text-lg font-medium mb-2">
+        <label
+          htmlFor="temperature-unit"
+          className="block text-lg font-medium mb-2"
+        >
           Temperature Unit
         </label>
         <select
+          id="temperature-unit"
           value={settings.temperatureUnit}
           onChange={(e) => handleUnitChange(e.target.value as TemperatureUnit)}
           className="w-full p-2 rounded border focus:outline-none "
