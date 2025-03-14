@@ -5,7 +5,7 @@ import useSettings from "@/core/hooks/useSettings";
 import { TemperatureUnit } from "@/core/types";
 import ContentWrapper from "@/components/ContentWrapper";
 
-export default function SettingsPage({ onUnitChange }: any) {
+export default function SettingsPage() {
   const { settings, updateSettings } = useSettings();
   const [mounted, setMounted] = useState(false);
 
@@ -17,8 +17,6 @@ export default function SettingsPage({ onUnitChange }: any) {
     if (settings.temperatureUnit !== value) {
       updateSettings({ temperatureUnit: value }, { updateLocalStorage: true });
     }
-
-    onUnitChange(value);
   };
 
   if (!mounted) return null;
