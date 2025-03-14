@@ -26,6 +26,8 @@ const Header = (props: Props) => {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [suggestions, setSuggestions] = useState<City[]>([]);
 
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     if (!isLoading && cities.length === 0) {
       confirm("No cities found. Would you like to use your current location?")
@@ -45,8 +47,8 @@ const Header = (props: Props) => {
 
   useEffect(() => {
     if (debouncedQuery) {
-      getCitySuggestions(debouncedQuery).then(
-        (res: MapboxGeocodingResponse) => {
+      getCitySuggestions(debouncedQuery)
+        .then((res: MapboxGeocodingResponse) => {
           const newSuggestions = res.features.map(
             (feature: MapboxSuggestCity) => ({
               id: feature.id,
@@ -63,8 +65,11 @@ const Header = (props: Props) => {
 
           setSuggestions(newSuggestions);
           setIsSuggestOpen(true);
-        }
-      );
+        })
+        .catch(() => {
+          setError("Failed to fetch city suggestions.");
+          setIsSuggestOpen(true);
+        });
     } else {
       setSuggestions([]);
       setIsSuggestOpen(false);
@@ -75,8 +80,8 @@ const Header = (props: Props) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        getCurrentWeather(latitude, longitude, settings.temperatureUnit!).then(
-          (res) => {
+        getCurrentWeather(latitude, longitude, settings.temperatureUnit!)
+          .then((res) => {
             const city = {
               id: res.id,
               name: res.name,
@@ -90,8 +95,10 @@ const Header = (props: Props) => {
             setTimeout(() => {
               window.dispatchEvent(new Event("storage"));
             }, 100);
-          }
-        );
+          })
+          .catch(() => {
+            setError("Failed to fetch weather data.");
+          });
       },
       () => {
         alert("Unable to get your current location.");
@@ -142,6 +149,7 @@ const Header = (props: Props) => {
         onClose={() => setIsSuggestOpen(false)}
         suggestions={suggestions}
         onSelected={handleCitySelected}
+        error={error}
       />
     </>
   );

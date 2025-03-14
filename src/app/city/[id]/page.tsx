@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { useParams } from "next/navigation";
 import useCities from "@/core/hooks/useCities";
 import useSettings from "@/core/hooks/useSettings";
@@ -17,7 +16,7 @@ import {
 import { renderNumberWithCommas } from "@/core/utils/helpers";
 import WeatherIcon from "@/components/WeatherIcon";
 import Link from "next/link";
-import { List, ListCheck, ListEnd, ListIcon, ListRestart } from "lucide-react";
+import { List } from "lucide-react";
 
 const CityDetailPage = () => {
   const params = useParams();
@@ -30,6 +29,7 @@ const CityDetailPage = () => {
 
   const [weather, setWeather] = useState<OpenWeatherResponse>();
   const [feelLike, setFeelLike] = useState<any>({});
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (city) {
@@ -37,20 +37,33 @@ const CityDetailPage = () => {
         city.latitude,
         city.longitude,
         settings.temperatureUnit!
-      ).then((res) => {
-        setWeather(res);
-        const { minTemp, maxTemp } = getMinMaxTemperatures(res.hourly);
-        setFeelLike({ minTemp, maxTemp });
-      });
+      )
+        .then((res) => {
+          setWeather(res);
+          const { minTemp, maxTemp } = getMinMaxTemperatures(res.hourly);
+          setFeelLike({ minTemp, maxTemp });
+        })
+        .catch(() => {
+          setError("Failed to fetch weather data.");
+        });
     }
   }, [city]);
 
-  if (!city || !weather) {
-    return null;
+  if (!city) {
+    return <div></div>;
+  }
+
+  if (error) {
+    return <div className="text-xs text-red-600 mb-2 mx-1">{error}</div>;
+  }
+
+  if (!weather) {
+    return <div>Loading...</div>;
   }
 
   return (
     <ContentWrapper className="flex flex-col p-5">
+
       {/* city section */}
       <section>
         <div className="flex justify-between ">
@@ -86,7 +99,7 @@ const CityDetailPage = () => {
       {/* 24h forcast section */}
       <section>
         <h4 className={`text-xs font-medium uppercase mb-4 text-slate-600`}>
-          24 hours forcast
+          24 hours forecast
         </h4>
         <div className="flex overflow-x-auto overflow-y-hidden">
           {weather.hourly.map((hour: any, index: number) => (

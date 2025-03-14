@@ -16,6 +16,7 @@ export default function HomePage() {
   const { settings } = useSettings();
 
   const [weathers, setWeathers] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (cities.length > 0) {
@@ -35,57 +36,62 @@ export default function HomePage() {
       const responses = await Promise.all(weatherPromises);
       const results = responses.map((response) => response);
       setWeathers(results);
+      setError(null); 
     } catch (error) {
-      console.error("Error fetching weather data:", error);
+      setError("Failed to fetch weather data.");
     }
   };
 
   return (
-    <ul>
-      {cities.map((city, index) => (
-        <li
-          key={index}
-          className={`flex justify-between items-center p-4 bg-white border border-gray-100 shadow-lg rounded-lg mb-4 relative`}
-        >
-          <Link key={index} className="flex w-full" href={`/city/${city.id}`}>
-            <div className={`flex-1`}>
-              <h3 className="text-xl font-bold">{city.name}</h3>
-              <p className="text-sm text-slate-500">
-                {getLocalTime(city.countryCode)}
-              </p>
-            </div>
-            <div className="flex items-center pt-2">
-              <WeatherIcon icon={weathers[index]?.weather[0].icon} />
-              <span className="text-xl text-slate-700">
-                {renderTemperature(weathers[index]?.main.temp)}
-              </span>
-            </div>
-          </Link>
+    <>
+      {error && <div className="text-xs text-red-600 mb-2 mx-1">{error}</div>}
 
-          {/* Dot Menu */}
-          <Popover className="absolute top-2 right-1 ">
-            <PopoverButton
-              className="text-slate-600 outline-none "
-              data-testid="popover-button"
-            >
-              <MoreVertical size={20} />
-            </PopoverButton>
+      <ul>
+        {cities.map((city, index) => (
+          <li
+            key={index}
+            className={`flex justify-between items-center p-4 bg-white border border-gray-100 shadow-lg rounded-lg mb-4 relative`}
+          >
+            <Link key={index} className="flex w-full" href={`/city/${city.id}`}>
+              <div className={`flex-1`}>
+                <h3 className="text-xl font-bold">{city.name}</h3>
+                <p className="text-sm text-slate-500">
+                  {getLocalTime(city.countryCode)}
+                </p>
+              </div>
+              <div className="flex items-center pt-2">
+                <WeatherIcon icon={weathers[index]?.weather[0].icon} />
+                <span className="text-xl text-slate-700">
+                  {renderTemperature(weathers[index]?.main.temp)}
+                </span>
+              </div>
+            </Link>
 
-            <PopoverPanel className="absolute right-1 top-1 w-32 bg-white shadow-lg rounded-lg border p-2">
-              <button
-                className="flex items-center w-full text-left text-sm p-1 text-red-500"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeCity(city.id);
-                }}
+            {/* Dot Menu */}
+            <Popover className="absolute top-2 right-1 ">
+              <PopoverButton
+                className="text-slate-600 outline-none "
+                data-testid="popover-button"
               >
-                <Trash size={16} />
-                <span className="ml-2">Remove</span>
-              </button>
-            </PopoverPanel>
-          </Popover>
-        </li>
-      ))}
-    </ul>
+                <MoreVertical size={20} />
+              </PopoverButton>
+
+              <PopoverPanel className="absolute right-1 top-1 w-32 bg-white shadow-lg rounded-lg border p-2">
+                <button
+                  className="flex items-center w-full text-left text-sm p-1 text-red-500"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeCity(city.id);
+                  }}
+                >
+                  <Trash size={16} />
+                  <span className="ml-2">Remove</span>
+                </button>
+              </PopoverPanel>
+            </Popover>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

@@ -6,10 +6,11 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onSelected: (city: any) => void;
+  error: string | null;
 };
 
 const SuggestDialog = (props: Props) => {
-  const { isOpen, onClose, onSelected, suggestions } = props;
+  const { isOpen, onClose, onSelected, suggestions, error } = props;
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -70,11 +71,18 @@ const SuggestDialog = (props: Props) => {
               </li>
             ))}
 
-            {isOpen && suggestions.length === 0 && (
+            {isOpen && suggestions.length === 0 && !error && (
               <li className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer text-black ">
                 <span>No results found</span>
               </li>
             )}
+
+            {error && (
+               <li className="flex items-center px-4 py-2 ">
+                 <div className="text-xs text-red-600">{error}</div>
+               </li>
+            )}
+            
           </ul>
         </div>
       </div>
