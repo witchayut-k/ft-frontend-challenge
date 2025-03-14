@@ -1,7 +1,8 @@
 import Providers from "@/components/Providers";
 import useCities from "@/core/hooks/useCities";
 import useSettings from "@/core/hooks/useSettings";
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, fireEvent } from "@testing-library/react";
+import { JSX, ClassAttributes, ImgHTMLAttributes } from "react";
 import HomePage from "src/app/page";
 
 // Mock the useCities hook
@@ -14,6 +15,18 @@ jest.mock("@/core/hooks/useCities", () => ({
 jest.mock("@/core/hooks/useSettings", () => ({
   __esModule: true,
   default: jest.fn(),
+}));
+
+// Mock the next/image component
+jest.mock("next/image", () => ({
+  __esModule: true,
+  default: (
+    props: JSX.IntrinsicAttributes &
+      ClassAttributes<HTMLImageElement> &
+      ImgHTMLAttributes<HTMLImageElement>
+  ) => {
+    return <img {...props} />;
+  },
 }));
 
 // Mock fetch
@@ -76,8 +89,46 @@ test("renders list of cities with temperatures", async () => {
     );
   });
 
-  // Assertions to verify the list of cities is rendered correctly
   expect(screen.getByText("New York")).toBeInTheDocument();
   expect(screen.getByText("Los Angeles")).toBeInTheDocument();
-  // expect(screen.getByText("20°")).toBeInTheDocument();
+});
+
+test("removes a city from the list", async () => {
+  const removeCityMock = jest.fn();
+
+  // Mock the return value of the useCities hook
+  const mockCities = [
+    {
+      id: 1,
+      name: "New York",
+      countryCode: "US",
+    },
+  ];
+
+  (useCities as jest.Mock).mockReturnValue({
+    cities: mockCities,
+    addCity: jest.fn(),
+    removeCity: removeCityMock,
+  });
+
+  (useSettings as jest.Mock).mockReturnValue({
+    settings: { temperatureUnit: "metric" },
+    updateSettings: jest.fn(),
+  });
+
+  // Render the component
+  await act(async () => {
+    render(
+      <Providers>
+        <HomePage />
+      </Providers>
+    );
+  });
+
+  expect(screen.getByText("New York")).toBeInTheDocument();
+
+  // Click the remove button
+  fireEvent.click(screen.getByTestId("popover-button"));
+  await fireEvent.click(await screen.findByText(/Remove/i));
+  expect(removeCityMock).toHaveBeenCalledWith(1);
 });

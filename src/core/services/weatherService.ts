@@ -40,7 +40,6 @@ export async function getCurrentWeatherWithForcast(lat: number, lng: number, uni
 
   try {
     const res = await fetch(url);
-    console.log('res', res);
     if (!res.ok) throw new Error("Failed to fetch weather data");
 
     const data = await res.json();

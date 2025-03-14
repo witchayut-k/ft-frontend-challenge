@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 type WeatherIconProps = {
@@ -13,7 +15,7 @@ const WeatherIcon = ({ icon, size = 50 }: WeatherIconProps) => {
       alt="Weather Icon"
       width={size}
       height={size}
-      fetchPriority="high"
+      style={{ minWidth: size, minHeight: size }}
     />
   );
 };

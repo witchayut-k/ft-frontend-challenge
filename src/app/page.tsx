@@ -64,7 +64,10 @@ export default function HomePage() {
 
           {/* Dot Menu */}
           <Popover className="absolute top-2 right-1 ">
-            <PopoverButton className="text-slate-600 outline-none">
+            <PopoverButton
+              className="text-slate-600 outline-none "
+              data-testid="popover-button"
+            >
               <MoreVertical size={20} />
             </PopoverButton>
 

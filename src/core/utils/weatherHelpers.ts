@@ -1,16 +1,16 @@
 export const getMinMaxTemperatures = (hourly: any[]) => {
     const allTemps = hourly.map((hour) => hour.temp);
 
-    const minTemp = Math.min(...allTemps).toFixed(0);
-    const maxTemp = Math.max(...allTemps).toFixed(0);
+    const minTemp = Math.round(Math.min(...allTemps));
+    const maxTemp = Math.round(Math.max(...allTemps));
 
     return { minTemp, maxTemp };
 }
 
-export const renderTemperature = (temp: any) => {
-    if (!temp) return "";
-    return `${temp.toFixed(0)}°`;
-}
+export const renderTemperature = (temp: number | undefined): string => {
+    if (temp === undefined) return "";
+    return `${Math.round(temp)}°`;
+};
 
 export const getChanceOfRain = (hourly: any[]) => {
     const totalPop = hourly.reduce((sum, hour) => sum + hour.pop, 0);

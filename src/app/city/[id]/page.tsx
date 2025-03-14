@@ -99,7 +99,7 @@ const CityDetailPage = () => {
               </small>
               <WeatherIcon icon={hour.weather[0].icon} />
               <small className="text-slate-500 leading-none mb-1">
-                {hour.temp.toFixed(0)}°
+                {renderTemperature(hour.temp)}
               </small>
             </div>
           ))}
