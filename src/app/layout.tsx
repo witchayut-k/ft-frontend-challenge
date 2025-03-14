@@ -16,7 +16,7 @@ export default function RootLayout({
 }: Readonly<ChildrenType>): JSX.Element {
   return (
     <html lang="en">
-      <body className="flex is-full min-h-full flex-auto flex-col bg-gray-100">
+      <body className="flex flex-col bg-gray-100">
         <Providers>
           <DefaultLayout>{children}</DefaultLayout>
         </Providers>
