@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { SettingsContext } from '@/core/contexts/settingsContext'
 
-export const useSettings = () => {
+const useSettings = () => {
   const context = useContext(SettingsContext)
 
   if (!context) {
@@ -10,3 +10,5 @@ export const useSettings = () => {
 
   return context
 }
+
+export default useSettings

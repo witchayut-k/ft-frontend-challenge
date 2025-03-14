@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
 import useCities from "@/core/hooks/useCities";
-import { useSettings } from "@/core/hooks/useSettings";
+import useSettings from "@/core/hooks/useSettings";
 import { getCurrentWeatherWithForcast } from "@/core/services/weatherService";
 import { getCurrentDate, getTimeFromTimestamp } from "@/core/utils/dateHelpers";
 import ContentWrapper from "@/components/ContentWrapper";

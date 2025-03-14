@@ -1,26 +1,19 @@
 import Image from "next/image";
 
-type Props = {
+type WeatherIconProps = {
   icon: string;
   size?: number;
 };
 
-const WeatherIcon = (props: Props) => {
-  const { icon, size } = props;
-  const iconUrl = "https://openweathermap.org/img/wn";
-  const defaultSize = 50;
-
-  if (!icon) {
-    return null;
-  }
-
+const WeatherIcon = ({ icon, size = 50 }: WeatherIconProps) => {
+  if (!icon) return null;
   return (
     <Image
-      src={`${iconUrl}/${icon}@4x.png`}
-      alt="Weather icon"
-      width={size ?? 50}
-      height={size ?? 50}
-      style={{ minWidth: size ?? 50, minHeight: size ?? 50 }}
+      src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+      alt="Weather Icon"
+      width={size}
+      height={size}
+      fetchPriority="high"
     />
   );
 };

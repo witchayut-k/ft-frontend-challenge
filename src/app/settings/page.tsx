@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSettings } from "@/core/hooks/useSettings";
+import useSettings from "@/core/hooks/useSettings";
 import { TemperatureUnit } from "@/core/types";
 import ContentWrapper from "@/components/ContentWrapper";
 

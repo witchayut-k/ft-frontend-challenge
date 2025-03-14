@@ -8,7 +8,7 @@ import {
 } from "@/core/services/weatherService";
 import { useDebounce } from "react-use";
 import useCities from "@/core/hooks/useCities";
-import { useSettings } from "@/core/hooks/useSettings";
+import useSettings from "@/core/hooks/useSettings";
 
 type Props = {
   toggleSidebar: Dispatch<SetStateAction<boolean>>;

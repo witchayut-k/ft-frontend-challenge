@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { config } from "@/configs/config";
 import useCities from "@/core/hooks/useCities";
-import { useSettings } from "@/core/hooks/useSettings";
+import useSettings from "@/core/hooks/useSettings";
 import { getCurrentWeather } from "@/core/services/weatherService";
 import { getLocalTime } from "@/core/utils/dateHelpers";
 import { renderTemperature } from "@/core/utils/weatherHelpers";

@@ -19,6 +19,7 @@ export async function getCitySuggestions(query: string) {
 }
 
 export async function getCurrentWeather(lat: number, lng: number, unit: TemperatureUnit) {
+
   const url = `${config.OPENWEATHER_LOCATION_API_URL}?lat=${lat}&lon=${lng}&appid=${config.OPENWEATHER_API_KEY}&units=${unit}`;
 
   try {
@@ -39,6 +40,7 @@ export async function getCurrentWeatherWithForcast(lat: number, lng: number, uni
 
   try {
     const res = await fetch(url);
+    console.log('res', res);
     if (!res.ok) throw new Error("Failed to fetch weather data");
 
     const data = await res.json();
