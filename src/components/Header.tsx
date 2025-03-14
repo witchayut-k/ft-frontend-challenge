@@ -125,12 +125,12 @@ const Header = (props: Props) => {
           <Menu size={24} color="black" />
         </button>
 
-        {/* Search Bar */}
+        {/* Search box */}
         <input
           type="search"
           placeholder="Search City or Zipcode"
           value={query}
-          className="w-full p-2 mx-2 focus:outline-none"
+          className="w-full p-2 mx-2 focus:outline-none bg-transparent"
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => handleSearchFocus()}
         />

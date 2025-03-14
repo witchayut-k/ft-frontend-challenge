@@ -38,7 +38,7 @@ export default function SettingsPage({ onUnitChange }: any) {
           id="temperature-unit"
           value={settings.temperatureUnit}
           onChange={(e) => handleUnitChange(e.target.value as TemperatureUnit)}
-          className="w-full p-2 rounded border focus:outline-none "
+          className="w-full p-2 rounded border focus:outline-none bg-white h-12"
         >
           <option value="standard">Kelvin (K)</option>
           <option value="metric">Celsius (°C)</option>

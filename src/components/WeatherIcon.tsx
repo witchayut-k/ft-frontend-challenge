@@ -8,6 +8,11 @@ type Props = {
 const WeatherIcon = (props: Props) => {
   const { icon, size } = props;
   const iconUrl = "https://openweathermap.org/img/wn";
+  const defaultSize = 50;
+
+  if (!icon) {
+    return null;
+  }
 
   return (
     <Image

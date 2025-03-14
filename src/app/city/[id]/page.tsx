@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { config } from "@/configs/config";
 import { useParams } from "next/navigation";
 import useCities from "@/core/hooks/useCities";
 import { useSettings } from "@/core/hooks/useSettings";
@@ -17,6 +16,8 @@ import {
 } from "@/core/utils/weatherHelpers";
 import { renderNumberWithCommas } from "@/core/utils/helpers";
 import WeatherIcon from "@/components/WeatherIcon";
+import Link from "next/link";
+import { List, ListCheck, ListEnd, ListIcon, ListRestart } from "lucide-react";
 
 const CityDetailPage = () => {
   const params = useParams();
@@ -49,10 +50,18 @@ const CityDetailPage = () => {
   }
 
   return (
-    <ContentWrapper className="flex flex-col flex-1 py-5 px-5 relative">
+    <ContentWrapper className="flex flex-col p-5">
       {/* city section */}
       <section>
-        <h1 className="text-2xl font-bold">{city.name}</h1>
+        <div className="flex justify-between ">
+          <h1 className="text-2xl font-bold">{city.name}</h1>
+          <Link href={`/`}>
+            <List
+              size={32}
+              className="text-slate-600 border rounded-full p-1 cursor-pointer -mr-1"
+            />
+          </Link>
+        </div>
         <h2 className="font-medium mb-1 text-slate-600">
           {getCurrentDate(city.countryCode)}
         </h2>
@@ -62,9 +71,9 @@ const CityDetailPage = () => {
       </section>
 
       {/* current temp section */}
-      <section className="flex flex-col justify-center items-center flex-1">
+      <section className="flex flex-col justify-center items-center ">
         <WeatherIcon icon={weather.current?.weather[0]?.icon} size={100} />
-        <span className="text-7xl font-semibold">
+        <span className="text-7xl font-semibold mb-2">
           {renderTemperature(weather.current?.temp)}
         </span>
         <small className="text-slate-600">
@@ -85,11 +94,13 @@ const CityDetailPage = () => {
               key={index}
               className="flex flex-col items-center text-sm mr-3 first:-ml-2 last:mr-0"
             >
-              <small className="text-slate-500 text-nowrap">
+              <small className="text-slate-500 text-nowrap leading-none">
                 {getTimeFromTimestamp(hour.dt)}
               </small>
               <WeatherIcon icon={hour.weather[0].icon} />
-              <small className="text-slate-500">{hour.temp.toFixed(0)}°</small>
+              <small className="text-slate-500 leading-none mb-1">
+                {hour.temp.toFixed(0)}°
+              </small>
             </div>
           ))}
         </div>
